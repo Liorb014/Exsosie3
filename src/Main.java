@@ -1,28 +1,85 @@
 import java.util.Scanner;
-
+//O(1)
 public class Main {
     public static void main(String[] args) {
-        String[] arrayOfCity = {"Ashdod" , " Tel-Aviv", "Eilat" ,"Ashkelon","Jerusalem","Rehovot","Haifa" ,"Bat-Yam" , "Baer-Sheva","Sderot"};
-        String[] arrayOfStreets = {"Rimon street" , "Narkis street", "rotem street" ,"Golani street","Givati street","Oliy Agardom street","Dov Brayer street" ,"Kalanit street" , "Tamar street","Africa street"};
-        Scanner user= new Scanner(System.in);
-        City city = new City(arrayOfCity[0],"darom ",arrayOfStreets );
-        System.out.println(city);
+        RealEstate realEstate = new RealEstate();
+        menu(realEstate);
     }
-    public static void menu(int userChoose){
+    //O(1)
+    public static void menu(RealEstate realEstate) {
+        final int CREATE_USER =1;
+        final int LOGIN =2;
+        final int EXIT =3;
+
+        Scanner scanner = new Scanner(System.in);
+        int userChoose;
         do {
-            if (userChoose==1){
-                createAccount();
-            } else if (userChoose==2) {
-                login();
-            }else if (userChoose==3) {
-                break;
+            System.out.println("welcome to 'yad 2' \n please choose : \n 1 - to create user \n 2 - to login \n 3 - to exit ");
+            userChoose = scanner.nextInt();
+        } while (userChoose < CREATE_USER || userChoose > EXIT);
+        if (userChoose == CREATE_USER) {
+            realEstate.createUser();
+            menu(realEstate);
+        } else if (userChoose == LOGIN) {
+            User user = realEstate.login();
+            if (user == null) {
+                menu(realEstate);
+            } else {
+                subMenu(user, realEstate);
             }
-        }while (userChoose < 0||userChoose>3);
+        }
     }
-    public static void createAccount (){
+    //O(1)
+    public static void subMenu(User user, RealEstate realEstate) {
+        final int MAKE_NEW_PROPERTY =1;
+        final int DELETE_PROPERTY =2;
+        final int PRINT_ALL_PROPERTIES =3;
+        final int PRINT_YOUR_PROPERTIES =4;
+        final int SEARCH_PROPERTY =5;
+        final int LOGOUT =6;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("""
+                1 to make new post
+                2 to remove post
+                3 to see all the properties
+                4 to see all your properties
+                5 to search for properties
+                6 to logout""");
 
-    }
-    public static void login(){
-
+        int userChoose;
+        do {
+            userChoose = scanner.nextInt();
+        } while (userChoose < 1 || userChoose > 6);
+        if (userChoose == 1) {
+            boolean postAdded = realEstate.postNewProperty(user);
+            if (postAdded) {
+                user.addPostCount();
+                System.out.println("add post successfully");
+            }
+            subMenu(user, realEstate);
+        } else if (userChoose == 2) {
+            realEstate.removeProperty(user);
+            subMenu(user, realEstate);
+        } else if (userChoose == 3) {
+            realEstate.printAllProperties();
+            subMenu(user, realEstate);
+        } else if (userChoose == 4) {
+            realEstate.printProperties(user);
+            subMenu(user, realEstate);
+        } else if (userChoose == 5) {
+            Property[] searchedArray = realEstate.search();
+            int counter = 1;
+            if (!(searchedArray == null || searchedArray.length == 0)) {
+                for (int i = 0; i < searchedArray.length; i++) {
+                    System.out.println(counter+ ") ");
+                    System.out.println(searchedArray[i]);
+                    counter++;
+                }
+            }
+            subMenu(user, realEstate);
+        } else {
+            System.out.println("logout successfully");
+            menu(realEstate);
+        }
     }
 }

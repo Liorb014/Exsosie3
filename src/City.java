@@ -1,26 +1,32 @@
 import java.util.Arrays;
-import java.util.List;
 
 public class City {
-    private final String cityName;
-    private final String area;
-    private final String[] listOfStreets;
-
-    public City(String cityName,String area,String[] listOfStreets){
-        this.cityName = cityName;
-        this.area = area;
-        this.listOfStreets = listOfStreets;
+    private final String CITY_NAME;
+    private final String AREA;
+    private final String[] LIST_OF_STREET;
+    //O(1)
+    public City(String cityName, String area, String[] listOfStreets) {
+        this.CITY_NAME = cityName;
+        this.AREA = area;
+        this.LIST_OF_STREET = listOfStreets;
     }
-    public String getCityName(){
-        return this.cityName;
+    //O(1)
+    public String getCityName() {
+        return this.CITY_NAME;
     }
-    public String getArea(String area){
-        return area;
+    //O(1)
+    public String getArea() {
+        return this.AREA;
     }
-    public String[] getListOfStreets(){
-        return listOfStreets;
+    //O(1)
+    public String[] getListOfStreets() {
+        return this.LIST_OF_STREET;
     }
-    public String toString(){
-        return "city name : " + cityName + "\n area : " + area +"\n  list of streets :" + Arrays.toString(listOfStreets) ;
+    //O(1)
+    public String toString() {
+        return "City name : " + this.CITY_NAME + "\nArea : " + getArea() + "\n List of streets :" + Arrays.toString(getListOfStreets());
     }
 }
+
+
+
